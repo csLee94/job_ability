@@ -21,25 +21,26 @@
 |4|language|SQL|
 |5|Web framework|Django|3.1.7|
 |6|Front|HTML & CSS|
+|7|Library|Selenium|3.141.0|
 
 <br>
 
 ---
 <br>
 
-## 1.가설 설정 및 가설 검정 
+# 1.가설 설정 및 가설 검정 
 
 <br>
 
-## 2.분석 주제 및 분석 단위 선정
+# 2.분석 주제 및 분석 단위 선정
 
 <br>
 
-## 3.서비스 기획 및 개발
+# 3.서비스 기획 및 개발
 
 <br>
 
-## 4.개발일지
+# 4.개발일지
 |Date|Staff|Description|
 |---|---|---|
 |2021.03.08|이충석|Djagno Server 개설 및 기초 URL 설정|
