@@ -6,7 +6,7 @@ import pymysql
 
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
-chrome_option.add_argument("headless")
+chrome_option.add_argument("headless") # 창 없는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 
@@ -14,7 +14,7 @@ driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_opti
 driver.get('file:///C:/Users/LCS/Documents/Project/99.Personal_JobAbility/code.html') # 임시 페이지 절대 경로
 
 #-- 저장할 DB 연결
-mysql = pymysql.connect(host='3.36.125.12', port=58171, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='3.34.97.206', port=58997, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 query_1 = 'INSERT INTO Code_parent VALUES ("%s", "%s")'
 query_2 = 'INSERT INTO Code_details VALUES ("%s", "%s", "%s")'

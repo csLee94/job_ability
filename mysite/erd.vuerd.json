@@ -2,8 +2,8 @@
   "canvas": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": 12,
-    "scrollLeft": 0,
+    "scrollTop": 101,
+    "scrollLeft": 37,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -17,7 +17,7 @@
     },
     "database": "MySQL",
     "databaseName": "",
-    "canvasType": "SQL",
+    "canvasType": "ERD",
     "language": "GraphQL",
     "tableCase": "pascalCase",
     "columnCase": "camelCase",
@@ -110,7 +110,7 @@
               "autoIncrement": false,
               "primaryKey": false,
               "unique": false,
-              "notNull": false
+              "notNull": true
             },
             "ui": {
               "active": false,
@@ -175,7 +175,7 @@
           "active": false,
           "left": 300,
           "top": 298,
-          "zIndex": 113,
+          "zIndex": 122,
           "widthName": 79,
           "widthComment": 60
         },
@@ -360,13 +360,36 @@
               "widthDefault": 60
             },
             "id": "168588b0-3c6a-e04f-3797-2a83ce8f9060"
+          },
+          {
+            "name": "",
+            "comment": "",
+            "dataType": "",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            },
+            "id": "b101cd95-94f7-b1b6-8c9e-99cf417dd80b"
           }
         ],
         "ui": {
           "active": false,
           "left": 306,
           "top": 592,
-          "zIndex": 114,
+          "zIndex": 118,
           "widthName": 60,
           "widthComment": 60
         },
