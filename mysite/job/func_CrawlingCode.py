@@ -4,6 +4,7 @@ import os
 import pymysql
 
 
+
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
 chrome_option.add_argument("headless") # 창 없는 모드

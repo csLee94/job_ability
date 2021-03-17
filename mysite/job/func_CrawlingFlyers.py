@@ -4,18 +4,25 @@ import pymysql
 import time 
 import random
 import os
+from datetime import datetime
 
+now = datetime.now()
 #-- URL Code Dict 설정
 mysql = pymysql.connect(host='3.34.188.141', port=57825, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
+# data 변수에 직군 분류 코드 저장(중복 검사)
 cursor.execute("Select * from Code_details")
-data = cursor.fetchall() # data 변수에 직군 분류 코드 저장
-query_insert = "INSERT INTO test_F VALUES (%s, %s, %s, %s, %s)"
+data = cursor.fetchall() 
+idlst = []
+for infor in data:
+    idlst.append(infor['ID_num'])
+
+query_insert = "INSERT INTO Flyers VALUES ('%s', '%s', '%s', '%s', '%s')"
 
 
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
-# chrome_option.add_argument("headless") # 창 업는 모드
+chrome_option.add_argument("headless") # 창 업는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
@@ -27,6 +34,7 @@ home_link_2 = "https://www.wanted.co.kr/wdlist/%s/%s"
 basic_xpath = "/html/body/div[1]/div/div[3]/div[2]/div/ul/li[%s]/div/a"
 target_xpath = "/html/body/div[1]/div/div[3]/div[1]/div[1]/div[1]/div[2]/section[1]/p[%s]/span"
 SCROLL_PAUSE_TIME = 2
+
 
 for infor in data:
     code_p = infor['code_parent']
@@ -64,8 +72,8 @@ for infor in data:
         id_position = elements.get_attribute('data-position-id')
         company_name = elements.get_attribute('data-company-name')
         position_name = elements.get_attribute('data-position-name')
-        if id_position in 'temp': # DB에 있는 경우 패스
-
+        if id_position in idlst: # DB에 있는 경우 패스
+            pass
         else:
             # 채용 공고 페이지 이동
             driver2.get(url_position)
@@ -75,17 +83,19 @@ for infor in data:
                 qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
                 cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2))
                 print("data is registered!")
-                time_nm = random.randrange(1,5)
-                time.sleep(time_nm)
+                time.sleep(random.randrange(1,5)))
             except:
-                driver2.get(driver2.current_url)
-                maintask = driver2.find_element_by_xpath(target_xpath % "2").text
-                qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
-                qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
-                cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2))
-                print("data is registered!")
-                time_nm = random.randrange(1,5)
-                time.sleep(time_nm)
+                try:
+                    driver2.get(driver2.current_url)
+                    maintask = driver2.find_element_by_xpath(target_xpath % "2").text
+                    qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
+                    qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
+                    cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2))
+                    print("data is registered!")
+                    time.sleep(random.randrange(1,5))
+                except:
+                    fail_url = driver2.current_url
+                    cursor.execute("INSERT INTO Failed_crawling '%s', '%s'" % (fail_url, str(now)))
                 
         time.sleep(10)
 

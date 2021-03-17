@@ -2,8 +2,8 @@
   "canvas": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": 101,
-    "scrollLeft": 37,
+    "scrollTop": 56,
+    "scrollLeft": 0,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -394,6 +394,67 @@
           "widthComment": 60
         },
         "id": "e3fbb7f6-1fdc-b871-4f76-271e3dbf0bbf"
+      },
+      {
+        "name": "Fail_Crawling",
+        "comment": "",
+        "columns": [
+          {
+            "name": "url",
+            "comment": "",
+            "dataType": "varchar(50)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 71,
+              "widthDefault": 60
+            },
+            "id": "ff288795-2230-725d-97a1-eac7fdc54726"
+          },
+          {
+            "name": "time",
+            "comment": "",
+            "dataType": "varchar(15)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 71,
+              "widthDefault": 60
+            },
+            "id": "36e30c5e-0664-f43b-9d0b-4c62baef2fc4"
+          }
+        ],
+        "ui": {
+          "active": true,
+          "left": 864,
+          "top": 477,
+          "zIndex": 126,
+          "widthName": 82,
+          "widthComment": 60
+        },
+        "id": "c05c6c2c-a9c0-0624-ae29-b23a1a19d3a5"
       }
     ],
     "indexes": []
