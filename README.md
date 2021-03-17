@@ -16,15 +16,12 @@
 |No|Category|Tool|Version|
 |---|---|---|---|
 |1|Server|AWS|
-|2-1|DB|MariaDB|
-|2-2|DB|MySQL|5.7.33|
+|2|DB|MySQL|5.7.33|
 |3|language|Python|3.7.9|
-|4|language|SQL|
-|5|Web framework|Django|3.1.7|
-|6|Front|HTML & CSS|
-|7|Library|Selenium|3.141.0|
-|8|Library|lxml|4.6.2|
-|9|Library|Pymysql|1.0.2|
+|4|Web framework|Django|3.1.7|
+|5|Front|HTML & CSS|
+|6|Library|Selenium|3.141.0|
+|7|Library|Pymysql|1.0.2|
 
 <br>
 
