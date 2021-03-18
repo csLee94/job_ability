@@ -8,7 +8,7 @@ from datetime import datetime
 
 now = datetime.now()
 #-- URL Code Dict 설정
-mysql = pymysql.connect(host='3.34.136.190', port=53533, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='3.35.230.239', port=58747, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # data 변수에 직군 분류 코드 저장(중복 검사)
 cursor.execute("Select * from Flyers")
