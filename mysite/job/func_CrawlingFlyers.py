@@ -8,21 +8,22 @@ from datetime import datetime
 
 now = datetime.now()
 #-- URL Code Dict 설정
-mysql = pymysql.connect(host='3.34.188.141', port=57825, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='3.34.136.190', port=53533, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # data 변수에 직군 분류 코드 저장(중복 검사)
-cursor.execute("Select * from Code_details")
-data = cursor.fetchall() 
+cursor.execute("Select * from Flyers")
+data_id = cursor.fetchall() 
 idlst = []
-for infor in data:
+for infor in data_id:
     idlst.append(infor['ID_num'])
 
 query_insert = "INSERT INTO Flyers VALUES ('%s', '%s', '%s', '%s', '%s')"
-
+suc_nm = 1
+fail_nm = 1
 
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
-chrome_option.add_argument("headless") # 창 업는 모드
+chrome_option.add_argument("headless") # 창 없는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
@@ -35,8 +36,10 @@ basic_xpath = "/html/body/div[1]/div/div[3]/div[2]/div/ul/li[%s]/div/a"
 target_xpath = "/html/body/div[1]/div/div[3]/div[1]/div[1]/div[1]/div[2]/section[1]/p[%s]/span"
 SCROLL_PAUSE_TIME = 2
 
+cursor.execute("Select * from Code_details")
+data_code = cursor.fetchall() 
 
-for infor in data:
+for infor in data_code:
     code_p = infor['code_parent']
     code_d = infor['code_details']
     if code_p == '999':
@@ -82,21 +85,26 @@ for infor in data:
                 qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
                 qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
                 cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2))
-                print("data is registered!")
-                time.sleep(random.randrange(1,5)))
+                print("data is registered!: 총 %d개" % suc_nm)
+                suc_nm += 1
+                time.sleep(random.randrange(1,5))
             except:
                 try:
+                    time.sleep(5)
                     driver2.get(driver2.current_url)
                     maintask = driver2.find_element_by_xpath(target_xpath % "2").text
                     qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
                     qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
                     cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2))
-                    print("data is registered!")
+                    print("data is registered!: 총 %d개" % suc_nm)
+                    suc_nm += 1
                     time.sleep(random.randrange(1,5))
                 except:
                     fail_url = driver2.current_url
-                    cursor.execute("INSERT INTO Failed_crawling '%s', '%s'" % (fail_url, str(now)))
-                
+                    cursor.execute("INSERT INTO Fail_crawling VALUES ('%s', '%s')" % (fail_url, str(now)))
+                    print("Failed data: 총 %d개" % fail_nm)
+                    fail_nm += 1 
+                    time.sleep(5)
         time.sleep(10)
 
 mysql.close()
