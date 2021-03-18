@@ -96,6 +96,7 @@ for infor in data_code:
                     qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
                     qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
                     cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2))
+                    # insert query 새 db에 맞춰서 변경할 것
                     print("data is registered!: 총 %d개" % suc_nm)
                     suc_nm += 1
                     time.sleep(random.randrange(1,5))
