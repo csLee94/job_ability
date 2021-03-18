@@ -106,6 +106,7 @@ for infor in data_code:
                     print("Failed data: 총 %d개" % fail_nm)
                     fail_nm += 1 
                     time.sleep(5)
-        time.sleep(10)
+        time.sleep(5)
+
 
 mysql.close()
