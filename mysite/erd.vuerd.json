@@ -2,8 +2,8 @@
   "canvas": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": 21,
-    "scrollLeft": 519,
+    "scrollTop": 94,
+    "scrollLeft": 266,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -175,7 +175,7 @@
           "active": false,
           "left": 300,
           "top": 298,
-          "zIndex": 122,
+          "zIndex": 151,
           "widthName": 79,
           "widthComment": 60
         },
@@ -349,9 +349,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 863,
-          "top": 278,
-          "zIndex": 145,
+          "left": 862,
+          "top": 254,
+          "zIndex": 160,
           "widthName": 60,
           "widthComment": 60
         },
@@ -406,36 +406,13 @@
               "widthDefault": 60
             },
             "id": "168588b0-3c6a-e04f-3797-2a83ce8f9060"
-          },
-          {
-            "name": "",
-            "comment": "",
-            "dataType": "",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "b101cd95-94f7-b1b6-8c9e-99cf417dd80b"
           }
         ],
         "ui": {
           "active": false,
           "left": 306,
           "top": 592,
-          "zIndex": 118,
+          "zIndex": 150,
           "widthName": 60,
           "widthComment": 60
         },
@@ -641,8 +618,8 @@
           "columnIds": [
             "84385935-18d2-2244-c33b-542b8effba05"
           ],
-          "x": 863,
-          "y": 384.25,
+          "x": 862,
+          "y": 360.25,
           "direction": "left"
         },
         "id": "016c51f3-8e16-26da-30a5-cef306aa0002",

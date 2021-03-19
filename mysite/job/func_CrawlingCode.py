@@ -12,10 +12,10 @@ path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 
 #-- 임시 페이지 연결
-driver.get('file:///C:/Users/LCS/Documents/Project/99.Personal_JobAbility/code.html') # 임시 페이지 절대 경로
+driver.get('file:///C:/Users/pc1/Documents/%230.LCS/project_job/code.html') # 임시 페이지 절대 경로
 
 #-- 저장할 DB 연결
-mysql = pymysql.connect(host='3.34.97.206', port=58997, user='lcs', password='lcs', db='tempdb', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='3.36.114.246', port=51368, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 query_1 = 'INSERT INTO Code_parent VALUES ("%s", "%s")'
 query_2 = 'INSERT INTO Code_details VALUES ("%s", "%s", "%s")'
