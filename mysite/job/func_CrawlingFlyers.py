@@ -26,7 +26,7 @@ chrome_option = Options() #초기화
 # chrome_option.add_argument("headless") # 창 없는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
-driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
+
 
 
 #-- 페이지 연결 및 페이지 이동/검색에 필요한 변수들
@@ -79,6 +79,7 @@ for infor in data_code:
             pass
         else:
             # 채용 공고 페이지 이동
+            driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
             driver2.get(url_position)
             try:
                 for tmpnm in range(1,3):
@@ -90,6 +91,7 @@ for infor in data_code:
                 cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
                 print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                 suc_nm += 1
+                driver2.close()
                 time.sleep(random.randrange(1,5))
             except:
                 try:
@@ -105,11 +107,13 @@ for infor in data_code:
                     print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                     suc_nm += 1
                     time.sleep(random.randrange(1,5))
+                    driver2.close()
                 except:
                     fail_url = driver2.current_url
                     cursor.execute("INSERT INTO Fail_Crawling VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (code_d, id_position, fail_url, company_name, position_name, str(datetime.now())))
                     print("Failed data: 총 %d개" % fail_nm)
                     fail_nm += 1 
+                    driver2.close()
                     time.sleep(5)
         time.sleep(0.5)
 
