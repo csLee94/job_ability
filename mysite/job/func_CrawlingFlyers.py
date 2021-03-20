@@ -5,10 +5,14 @@ import time
 import random
 import os
 from datetime import datetime
+import re
 
+def cleanText(readData):
+    text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》•]', '', readData)
+    return text
 
 #-- URL Code Dict 설정
-mysql = pymysql.connect(host='3.34.91.88', port=58741, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='3.34.135.34', port=56351, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # data 변수에 직군 분류 코드 저장(중복 검사)
 cursor.execute("Select * from Flyers")
@@ -85,9 +89,9 @@ for infor in data_code:
                 for tmpnm in range(1,3):
                     driver2.execute_script("window.scrollTo(0,%s)" % str(300*tmpnm))
                     time.sleep(1)    
-                maintask = driver2.find_element_by_xpath(target_xpath % "2").text
-                qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
-                qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
+                maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
+                qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
+                qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
                 cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
                 print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                 suc_nm += 1
@@ -99,11 +103,10 @@ for infor in data_code:
                     for tmpnm in range(1,3):
                         driver2.execute_script("window.scrollTo(0,%s)" % str(300*tmpnm))
                         time.sleep(1)    
-                    maintask = driver2.find_element_by_xpath(target_xpath % "2").text
-                    qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
-                    qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
+                    maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
+                    qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
+                    qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
                     cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
-                    # insert query 새 db에 맞춰서 변경할 것
                     print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                     suc_nm += 1
                     time.sleep(random.randrange(1,5))
