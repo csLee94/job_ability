@@ -78,7 +78,7 @@ for infor in data_code:
         if id_position in idlst: # DB에 있는 경우 패스
             pass
         else:
-            # 채용 공고 페이지 이동
+            # 채용 공고 페이지 이동 / 드라이버 선언 위치 조정
             driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
             driver2.get(url_position)
             try:
