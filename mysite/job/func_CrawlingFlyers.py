@@ -27,10 +27,10 @@ fail_nm = 1
 
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
-# chrome_option.add_argument("headless") # 창 없는 모드
+chrome_option.add_argument("headless") # 창 없는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
-driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
-
+driver   = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
+driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 
 
 #-- 페이지 연결 및 페이지 이동/검색에 필요한 변수들
@@ -82,43 +82,33 @@ for infor in data_code:
         if id_position in idlst: # DB에 있는 경우 패스
             pass
         else:
-            # 채용 공고 페이지 이동 / 드라이버 선언 위치 조정
-            driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
+            # 채용 공고 페이지 이동 
             driver2.get(url_position)
-            try:
-                for tmpnm in range(1,3):
-                    driver2.execute_script("window.scrollTo(0,%s)" % str(300*tmpnm))
-                    time.sleep(1)    
+            try: 
                 maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
                 qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
                 qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
                 cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
                 print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                 suc_nm += 1
-                driver2.close()
-                time.sleep(random.randrange(1,5))
+                time.sleep(random.randrange(1,3))
             except:
                 try:
-                    driver2.get(driver2.current_url)
-                    for tmpnm in range(1,3):
-                        driver2.execute_script("window.scrollTo(0,%s)" % str(300*tmpnm))
-                        time.sleep(1)    
+                    driver2.get(driver2.current_url)   
                     maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
                     qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
                     qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
                     cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
                     print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                     suc_nm += 1
-                    time.sleep(random.randrange(1,5))
-                    driver2.close()
+                    time.sleep(random.randrange(1,3))
                 except:
                     fail_url = driver2.current_url
                     cursor.execute("INSERT INTO Fail_Crawling VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (code_d, id_position, fail_url, company_name, position_name, str(datetime.now())))
                     print("Failed data: 총 %d개" % fail_nm)
                     fail_nm += 1 
-                    driver2.close()
                     time.sleep(5)
-        time.sleep(0.5)
+        
 
 
 # 실패한 데이터 재수집 
@@ -134,24 +124,20 @@ for infor in data_fail:
         position_name = infor['Flyer_title']
         url = infor['url']
         driver2.get(url)
-        for tmpnm in range(2):
-            driver2.execute_script("window.scrollTo(0,300)")    
-            timp.sleep(1)    
-        maintask = driver2.find_element_by_xpath(target_xpath % "2").text
-        qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
-        qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
+        maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
+        qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
+        qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
         cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
+        time.sleep(1)
     except:
         try:
-            driver2.get(url)
-            for tmpnm in range(2):
-                driver2.execute_script("window.scrollTo(0,300)")    
-                timp.sleep(1)   
-            maintask = driver2.find_element_by_xpath(target_xpath % "2").text
-            qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
-            qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
+            driver2.get(url)  
+            maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
+            qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
+            qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
             cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
             cursor.execute("DELETE FROM Fail_Crawling where ID_num = '%s'" % id_position)
+            time.sleep(1)
         except:
             pass
             # cursor.execute("INSERT INTO Fail_crawling VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (code_d, id_position, fail_url, company_name, position_name, str(datetime.now())))
