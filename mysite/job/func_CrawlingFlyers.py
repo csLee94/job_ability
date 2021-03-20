@@ -82,7 +82,7 @@ for infor in data_code:
             driver2.get(url_position)
             try:
                 for tmpnm in range(1,3):
-                    driver2.execute_script("window.scrollTo(0,%d)" % 300*tmpnm)    
+                    driver2.execute_script("window.scrollTo(0,%s)" % str(300*tmpnm))
                     time.sleep(1)    
                 maintask = driver2.find_element_by_xpath(target_xpath % "2").text
                 qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
@@ -94,8 +94,8 @@ for infor in data_code:
             except:
                 try:
                     driver2.get(driver2.current_url)
-                    for tmpnm in range(2):
-                        driver2.execute_script("window.scrollTo(0,%d)" % 300*tmpnm)    
+                    for tmpnm in range(1,3):
+                        driver2.execute_script("window.scrollTo(0,%s)" % str(300*tmpnm))
                         time.sleep(1)    
                     maintask = driver2.find_element_by_xpath(target_xpath % "2").text
                     qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
