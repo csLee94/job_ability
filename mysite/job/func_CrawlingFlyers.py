@@ -85,6 +85,7 @@ for infor in data_code:
             # 채용 공고 페이지 이동 
             driver2.get(url_position)
             try: 
+                time.sleep(1)
                 maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
                 qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
                 qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
@@ -95,6 +96,7 @@ for infor in data_code:
             except:
                 try:
                     driver2.get(driver2.current_url)   
+                    time.sleep(3)
                     maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
                     qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
                     qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
@@ -124,6 +126,7 @@ for infor in data_fail:
         position_name = infor['Flyer_title']
         url = infor['url']
         driver2.get(url)
+        time.sleep(5)
         maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
         qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
         qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
@@ -132,6 +135,7 @@ for infor in data_fail:
     except:
         try:
             driver2.get(url)  
+            time.sleep(7)
             maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
             qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
             qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
