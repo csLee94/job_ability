@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 #-- URL Code Dict 설정
-mysql = pymysql.connect(host='3.36.114.246', port=51368, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='3.34.91.88', port=58741, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # data 변수에 직군 분류 코드 저장(중복 검사)
 cursor.execute("Select * from Flyers")
@@ -23,7 +23,7 @@ fail_nm = 1
 
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
-chrome_option.add_argument("headless") # 창 없는 모드
+# chrome_option.add_argument("headless") # 창 없는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
@@ -81,6 +81,9 @@ for infor in data_code:
             # 채용 공고 페이지 이동
             driver2.get(url_position)
             try:
+                for tmpnm in range(1,3):
+                    driver2.execute_script("window.scrollTo(0,%d)" % 300*tmpnm)    
+                    time.sleep(1)    
                 maintask = driver2.find_element_by_xpath(target_xpath % "2").text
                 qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
                 qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
@@ -90,8 +93,10 @@ for infor in data_code:
                 time.sleep(random.randrange(1,5))
             except:
                 try:
-                    time.sleep(5)
                     driver2.get(driver2.current_url)
+                    for tmpnm in range(2):
+                        driver2.execute_script("window.scrollTo(0,%d)" % 300*tmpnm)    
+                        time.sleep(1)    
                     maintask = driver2.find_element_by_xpath(target_xpath % "2").text
                     qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
                     qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
@@ -106,7 +111,7 @@ for infor in data_code:
                     print("Failed data: 총 %d개" % fail_nm)
                     fail_nm += 1 
                     time.sleep(5)
-        time.sleep(5)
+        time.sleep(0.5)
 
 
 # 실패한 데이터 재수집 
@@ -122,6 +127,9 @@ for infor in data_fail:
         position_name = infor['Flyer_title']
         url = infor['url']
         driver2.get(url)
+        for tmpnm in range(2):
+            driver2.execute_script("window.scrollTo(0,300)")    
+            timp.sleep(1)    
         maintask = driver2.find_element_by_xpath(target_xpath % "2").text
         qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
         qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
@@ -129,6 +137,9 @@ for infor in data_fail:
     except:
         try:
             driver2.get(url)
+            for tmpnm in range(2):
+                driver2.execute_script("window.scrollTo(0,300)")    
+                timp.sleep(1)   
             maintask = driver2.find_element_by_xpath(target_xpath % "2").text
             qual1 = driver2.find_element_by_xpath(target_xpath % "3").text
             qual2 = driver2.find_element_by_xpath(target_xpath % "4").text
