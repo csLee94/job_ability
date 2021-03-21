@@ -92,18 +92,18 @@ for infor in data_code:
                 cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
                 print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                 suc_nm += 1
-                time.sleep(random.randrange(1,3))
+                time.sleep(random.randrange(1,5))
             except:
                 try:
-                    driver2.get(driver2.current_url)   
-                    time.sleep(3)
+                    # driver2.get(driver2.current_url)   
+                    time.sleep(2)
                     maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
                     qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
                     qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
                     cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
                     print("data is registered!: 총 %d개" % suc_nm) # 필요없을 때 삭제
                     suc_nm += 1
-                    time.sleep(random.randrange(1,3))
+                    time.sleep(random.randrange(1,5))
                 except:
                     fail_url = driver2.current_url
                     cursor.execute("INSERT INTO Fail_Crawling VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (code_d, id_position, fail_url, company_name, position_name, str(datetime.now())))
