@@ -12,14 +12,17 @@ def cleanText(readData):
     return text
 
 #-- URL Code Dict 설정
-mysql = pymysql.connect(host='3.34.135.34', port=56351, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='13.124.250.48', port=51747, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
+
 # data 변수에 직군 분류 코드 저장(중복 검사)
 cursor.execute("Select * from Flyers")
 data_id = cursor.fetchall() 
 idlst = []
 for infor in data_id:
-    idlst.append(infor['ID_num'])
+    temp = [infor['code_details'], infor['ID_num']]
+    idlst.append(temp)
+
 
 query_insert = "INSERT INTO Flyers VALUES ('%s', '%s', '%s', '%s', '%s','%s', '%s')"
 suc_nm = 1
@@ -27,7 +30,7 @@ fail_nm = 1
 
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
-chrome_option.add_argument("headless") # 창 없는 모드
+# chrome_option.add_argument("headless") # 창 없는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver   = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
@@ -79,7 +82,8 @@ for infor in data_code:
         id_position = elements.get_attribute('data-position-id')
         company_name = elements.get_attribute('data-company-name')
         position_name = elements.get_attribute('data-position-name')
-        if id_position in idlst: # DB에 있는 경우 패스
+        test_distinct = [code_d, id_position]
+        if test_distinct in idlst: # DB에 있는 경우 패스
             pass
         else:
             # 채용 공고 페이지 이동 
@@ -131,11 +135,11 @@ for infor in data_fail:
         qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
         qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
         cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
+        cursor.execute("DELETE FROM Fail_Crawling where ID_num = '%s'" % id_position)
         time.sleep(1)
     except:
         try:
-            driver2.get(url)  
-            time.sleep(7)
+            time.sleep(5)
             maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
             qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
             qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
@@ -143,8 +147,6 @@ for infor in data_fail:
             cursor.execute("DELETE FROM Fail_Crawling where ID_num = '%s'" % id_position)
             time.sleep(1)
         except:
-            pass
-            # cursor.execute("INSERT INTO Fail_crawling VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (code_d, id_position, fail_url, company_name, position_name, str(datetime.now())))
-            # print("Failed data: 총 %d개" % fail_nm)
+            print("Something is wrong")
 
 mysql.close()
