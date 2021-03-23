@@ -119,34 +119,53 @@ for infor in data_code:
 
 # 실패한 데이터 재수집 
 # now = datetime.now() # 시작 시간
-cursor.execute('SELECT * FROM Fail_Crawling')
+flst = [] # 중복 검사를 위해 현재 Flyers DB 정보 불러오기 
+cursor.execute("SELECT code_details, ID_num FROM Flyers")
+data = cursor.fetchall()
+for infor in data:
+    temp = [infor['code_details'], infor['ID_num']]
+    flst.append(temp)    
+
+# 수집 실패한 List 불러오기
+cursor.execute("SELECT * FROM Fail_Crawling")
 data_fail = cursor.fetchall()
 
 for infor in data_fail:
-    try:
-        code_d = infor['code_d']
-        id_position = infor['ID_num']
-        company_name = infor['Company_nm']
-        position_name = infor['Flyer_title']
-        url = infor['url']
-        driver2.get(url)
-        time.sleep(5)
-        maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
-        qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
-        qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
-        cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
-        cursor.execute("DELETE FROM Fail_Crawling where ID_num = '%s'" % id_position)
-        time.sleep(1)
-    except:
+    code_d = str(infor['code_d'])
+    id_position = str(infor['ID_num'])
+    Company_nm = str(infor['Company_nm'])
+    Flyer_title = str(infor['Flyer_title'])
+    temp = [code_d, id_position]
+
+    if temp in flst: # 이미 수집된 데이터 삭제
+        cursor.execute("DELETE FROM Fail_Crawling WHERE code_d=%s AND ID_num=%s" % (code_d, id_position))
+        print("삭제 완료")
+    else:
         try:
+            driver.get(infor['url'])
             time.sleep(5)
-            maintask = cleanText(driver2.find_element_by_xpath(target_xpath % "2").text)
-            qual1 = cleanText(driver2.find_element_by_xpath(target_xpath % "3").text)
-            qual2 = cleanText(driver2.find_element_by_xpath(target_xpath % "4").text)
-            cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, company_name, position_name))
-            cursor.execute("DELETE FROM Fail_Crawling where ID_num = '%s'" % id_position)
+            maintask=cleanText(driver.find_element_by_xpath(target_xpath % "2").text)
+            qual1=cleanText(driver.find_element_by_xpath(target_xpath % "3").text)
+            qual2=cleanText(driver.find_element_by_xpath(target_xpath % "4").text)
+            cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, Company_nm, Flyer_title))
             time.sleep(1)
+            cursor.execute("DELETE FROM Fail_Crawling WHERE code_d='%s' AND ID_num='%s'" % (code_d, id_position))
+            print("등록 및 삭제 완료: %s" % infor['url'])
         except:
-            print("Something is wrong")
+            time.sleep(3)
+            maintask=cleanText(driver.find_element_by_xpath(target_xpath % "2").text)
+            maintask = maintask.rstrip('\ ')
+            qual1=cleanText(driver.find_element_by_xpath(target_xpath % "3").text)
+            qual1 = qual1.rstrip('\ ')
+            qual2=cleanText(driver.find_element_by_xpath(target_xpath % "4").text)
+            qual2 = qual2.rstrip('\ ')
+            print(query_insert % (code_d, id_position, maintask, qual1, qual2, Company_nm, Flyer_title))
+            cursor.execute(query_insert % (code_d, id_position, maintask, qual1, qual2, Company_nm, Flyer_title))
+            time.sleep(1)
+            cursor.execute("DELETE FROM Fail_Crawling WHERE code_d='%s' AND ID_num='%s'" % (code_d, id_position))
+            print("등록 및 삭제 완료: %s" % infor['url'])
+
+
 
 mysql.close()
+
