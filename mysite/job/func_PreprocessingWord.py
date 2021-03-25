@@ -35,17 +35,10 @@ cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # 채용 공고 불러오기
 cursor.execute("SELECT * FROM Flyers LIMIT 5")
 data = cursor.fetchall()
-mysql.close()
+mysql.close() # DB 적입 시 삭제 
 
-# for infor in data:
-#     txt = cleanText(infor['Maintask'])
-#     tlst = []
-#     for tempword in okt.pos(txt):
-#         if tempword[1]  in ['Noun', 'Adjective']: # 명사 & 형용사만 추출
-#             if len(tempword[0]) > 1: # 한 글자 삭제
-#                 tlst.append(tempword[0])
 
-# print(tlst)
+
 ##########################################################################
 #-- 단어 전처리
 ##########################################################################
