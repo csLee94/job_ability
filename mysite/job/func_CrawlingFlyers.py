@@ -12,7 +12,7 @@ def cleanText(readData):
     return text
 
 #-- URL Code Dict 설정
-mysql = pymysql.connect(host='13.124.250.48', port=51747, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='15.164.102.130', port=55677, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 
 # data 변수에 직군 분류 코드 저장(중복 검사)
@@ -30,7 +30,7 @@ fail_nm = 1
 
 #-- 크롬드라이버 설정 
 chrome_option = Options() #초기화
-# chrome_option.add_argument("headless") # 창 없는 모드
+chrome_option.add_argument("headless") # 창 없는 모드
 path = os.getcwd() # 설치한 Chromdriver 절대 경로설정
 driver   = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
 driver2  = webdriver.Chrome(path+'/chromedriver.exe', chrome_options= chrome_option) # driver 선언
