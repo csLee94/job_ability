@@ -1,6 +1,8 @@
 import pymysql
-from konlpy.tag import Okt
-from konlpy.tag import Kkma
+from konlpy.tag import Okt # 한글용
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 import re
 import pymysql
 
@@ -30,12 +32,12 @@ with open("stopword_korean.txt", "r", encoding="utf-8") as stopword_korean_file:
 ##########################################################################
 #-- DB 연결
 ##########################################################################
-mysql = pymysql.connect(host='3.35.0.250', port=55614, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='15.164.102.130', port=55677, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # 채용 공고 불러오기
 cursor.execute("SELECT * FROM Flyers LIMIT 5")
 data = cursor.fetchall()
-mysql.close() # DB 적입 시 삭제 
+# mysql.close() # DB 적입 시 삭제 
 
 
 
@@ -43,14 +45,18 @@ mysql.close() # DB 적입 시 삭제
 #-- 단어 전처리
 ##########################################################################
 for infor in data:
-    tlst=[]
+    code_details = infor['code_details']
     for tempcol in ['Maintask', 'Qual', 'Pre_Qual']:
         txt = cleanText(infor[tempcol])
+        # okt를 이용한 한국어 낱말 분리
         for tempword in okt.pos(txt):
             if tempword[1] in ['Noun', 'Adjective']: # 명사 & 형용사 추출
                 if len(tempword[0]) > 1: # 한 글자 삭제
                     if tempword[0] not in stopword_korean: # 불용어 제거
-                        tlst.append(tempword[0])
-    
-    print('%s | %s: ' % (infor['code_details'], infor['ID_num']),tlst)
-    print('#'*80)
+                        cursor.execute("INSERT INTO testword VALUES ('%s', '%s')" % (code_details, tempword[0]))
+        # 영어 분리
+        for 
+
+
+mysql.close()
+
