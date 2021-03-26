@@ -3,8 +3,12 @@ from konlpy.tag import Okt # 한글용
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+# nltk.download('stopwords')
+# nltk.download('punkt')
 import re
 import pymysql
+
+
 
 ##########################################################################
 #-- 함수 & 변수 설정
@@ -28,6 +32,8 @@ with open("stopword_korean.txt", "r", encoding="utf-8") as stopword_korean_file:
     stopword_korean = stopword_korean_file.read()
     stopword_korean = stopword_korean.split(',')
     
+# 영어 불용어 불러오기 
+stopword_eng = set(stopwords.words('english'))
 
 ##########################################################################
 #-- DB 연결
@@ -53,10 +59,17 @@ for infor in data:
             if tempword[1] in ['Noun', 'Adjective']: # 명사 & 형용사 추출
                 if len(tempword[0]) > 1: # 한 글자 삭제
                     if tempword[0] not in stopword_korean: # 불용어 제거
-                        cursor.execute("INSERT INTO testword VALUES ('%s', '%s')" % (code_details, tempword[0]))
+                        # cursor.execute("INSERT INTO testword VALUES ('%s', '%s')" % (code_details, tempword[0]))
+                        print("okt: ",tempword[0])
         # 영어 분리
-        for 
-
+        for tempword in word_tokenize(txt):
+            if tempword not in stopword_eng: # 불용어 제거
+                if len(tempword) >1: # 한  글자 단어 삭제
+                    tempword = del_korean(tempword)
+                    if len(tempword) > 0:
+                        print("nltk:",tempword[0])
+                      # curosr.execute("INSERT INTO testword VALUES ('%s', '%s')" % (code_details, tempword))
+                    
 
 mysql.close()
 

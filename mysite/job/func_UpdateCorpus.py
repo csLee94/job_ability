@@ -19,9 +19,5 @@ add_word = '''
 
 '''
 업데이트 진행 후 filepath에 가서 신규 jar 파일 생성해야 반영
-
+> 단어 분류기 (nltk / kkma / okt) 비교 후 okt 사전에 없지만 필요한 단어들 추출하는 코드
 '''
-
-import nltk
-from nltk.tokenize import word_tokenize
-print(nltk.__version__)
