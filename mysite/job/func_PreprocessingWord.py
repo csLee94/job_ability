@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 # nltk.download('punkt')
 import re
 import pymysql
+from collections import Counter
 
 
 
@@ -17,13 +18,21 @@ import pymysql
 def cleanText(readData):
     text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》•]', '', readData)
     return text
+# 중복값 제거
+def unique_value(lst):
+    temp_set = set(lst)
+    result = list(temp_set)
+    return result
 
 # Nltk를 위한 한국어 삭제 함수
 def del_korean(text):
     txt = text 
     hangul = re.compile('[^ ㄱ-ㅣ가-힣]+')
     result=hangul.findall(txt)
-    return result
+    if len(result) > 0:
+        return str(result[0])
+    elif len(result) == 0:
+        return ""
 
 # 한국어 전처리를 위한 okt 호출
 okt = Okt()
@@ -35,41 +44,56 @@ with open("stopword_korean.txt", "r", encoding="utf-8") as stopword_korean_file:
 # 영어 불용어 불러오기 
 stopword_eng = set(stopwords.words('english'))
 
+
 ##########################################################################
 #-- DB 연결
 ##########################################################################
-mysql = pymysql.connect(host='15.164.102.130', port=55677, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='13.125.126.170', port=57910, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # 채용 공고 불러오기
-cursor.execute("SELECT * FROM Flyers LIMIT 5")
+cursor.execute("SELECT * FROM Flyers LIMIT 30")
 data = cursor.fetchall()
 # mysql.close() # DB 적입 시 삭제 
 
-
+cursor.execute("SELECT distinct code_details, ID_num FROM testword")
+data_overlap = cursor.fetchall()
+overlap=[]
+for infor in data_overlap:
+    tlst = [infor['code_details'], infor['ID_num']]
+    overlap.append(tlst)
 
 ##########################################################################
 #-- 단어 전처리
 ##########################################################################
+kor_lst =[]
+eng_lst =[]
 for infor in data:
     code_details = infor['code_details']
-    for tempcol in ['Maintask', 'Qual', 'Pre_Qual']:
-        txt = cleanText(infor[tempcol])
-        # okt를 이용한 한국어 낱말 분리
-        for tempword in okt.pos(txt):
-            if tempword[1] in ['Noun', 'Adjective']: # 명사 & 형용사 추출
-                if len(tempword[0]) > 1: # 한 글자 삭제
-                    if tempword[0] not in stopword_korean: # 불용어 제거
-                        # cursor.execute("INSERT INTO testword VALUES ('%s', '%s')" % (code_details, tempword[0]))
-                        print("okt: ",tempword[0])
-        # 영어 분리
-        for tempword in word_tokenize(txt):
-            if tempword not in stopword_eng: # 불용어 제거
-                if len(tempword) >1: # 한  글자 단어 삭제
-                    tempword = del_korean(tempword)
-                    if len(tempword) > 0:
-                        print("nltk:",tempword[0])
-                      # curosr.execute("INSERT INTO testword VALUES ('%s', '%s')" % (code_details, tempword))
-                    
+    id_num = infor['ID_num']
+    tplst = [code_details, id_num]
+    if tplst in overlap: # 중복 검사
+        pass
+    else:
+        for tempcol in ['Maintask', 'Qual', 'Pre_Qual']:
+            txt = cleanText(infor[tempcol])
+            # okt를 이용한 한국어 낱말 분리
+            for tempword in okt.pos(txt):
+                if tempword[1] in ['Noun', 'Adjective']: # 명사 & 형용사 추출
+                    if len(tempword[0]) > 1: # 한 글자 삭제
+                        if tempword[0] not in stopword_korean: # 불용어 제거
+                            word = tempword[0].upper()
+                            print("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
+                            cursor.execute("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
+                            # print("okt: ",tempword[0])
+            # 영어 분리
+            for tempword in word_tokenize(txt):
+                tempword = del_korean(tempword) # 한글 제거
+                if len(tempword) > 1:
+                    if tempword not in stopword_eng: # 불용어 제거                    
+                        word = tempword.upper()
+                        print("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
+                        cursor.execute("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
+                        
 
 mysql.close()
 
