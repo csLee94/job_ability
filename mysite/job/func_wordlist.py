@@ -3,7 +3,7 @@ import pymysql
 ##########################################################################
 #-- DB 연결
 ##########################################################################
-mysql = pymysql.connect(host='13.125.126.170', port=57910, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='15.164.96.251', port=54258, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 
 cursor.execute('truncate NUM_Words')

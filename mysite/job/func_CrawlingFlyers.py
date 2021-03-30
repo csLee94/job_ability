@@ -12,7 +12,7 @@ def cleanText(readData):
     return text
 
 #-- URL Code Dict 설정
-mysql = pymysql.connect(host='15.164.102.130', port=55677, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='3.34.91.54', port=55634, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 
 # data 변수에 직군 분류 코드 저장(중복 검사)
