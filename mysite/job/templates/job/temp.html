@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Ability</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'website/temp.css' %}">
+</head>
+
+<body>
+    <div class="mx-auto mt-5">
+        <h1 class="text-center"> HOME</h1>
+    </div>   
+
+
+<div class="mx-auto" style="width: 500px;">
+        <form action='' method="GET">
+            <div class="mx-auto mt-5 search-bar input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Select</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" name='select'>
+                    <option value="0">선택해주세요</option>
+                    <option value="1">개발_서버 개발자</option>
+                    <option value="2">개발_웹 개발자</option>
+                    <option value="3">개발_프론트엔드 개발자</option>
+                    <option value="4">개발_자바 개발자</option>
+                    <option value="5">개발_안드로이드 개발자</option>
+                    <option value="6">개발_iOS 개발자</option>
+                    <option value="7">개발_파이썬 개발자</option>
+                    <option value="8">개발_데이터 엔지니어</option>
+                    <option value="9">개발_DevOps / 시스템 관리자</option>
+                    <option value="10">개발_Node.js 개발자</option>
+                    <option value="11">개발_C,C++ 개발자</option>
+                    <option value="12">개발_머신러닝 엔지니어</option>
+                    <option value="13">개발_시스템,네트워크 관리자</option>
+                    <option value="14">개발_데이터 사이언티스트</option>
+                    <option value="15">개발_개발 매니저</option>
+                    <option value="16">경영, 비즈니스_서비스 기획자</option>
+                    <option value="17">경영, 비즈니스_사업개발·기획자</option>
+                    <option value="18">경영, 비즈니스_프로젝트 매니저</option>
+                    <option value="19">경영, 비즈니스_전략 기획자</option>
+                    <option value="20">경영, 비즈니스_운영 매니저</option>
+                    <option value="21">경영, 비즈니스_데이터 분석가</option>
+                    <option value="22">경영, 비즈니스_경영지원</option>
+                    <option value="23">마케팅, 광고_디지털 마케터</option>
+                    <option value="24">마케팅, 광고_마케터</option>
+                    <option value="25">마케팅, 광고_마케팅 전략 기획자</option>
+                    <option value="26">마케팅, 광고_콘텐츠 마케터</option>
+                    <option value="27">마케팅, 광고_브랜드 마케터</option>
+                    <option value="28">마케팅, 광고_소셜 마케터</option>
+                    <option value="29">마케팅, 광고_그로스 해커</option>
+                    <option value="30">디자인_UX 디자이너</option>
+                    <option value="31">디자인_UI,GUI 디자이너</option>
+                    <option value="32">디자인_웹 디자이너</option>
+                    <option value="33">디자인_그래픽 디자이너</option>
+                    <option value="34">디자인_모바일 디자이너</option>
+                    <option value="35">디자인_제품 디자이너</option>
+                    <option value="36">디자인_BI/BX 디자이너</option>
+                    <option value="37">영업_기업영업</option>
+                    <option value="38">영업_기술영업</option>
+                    <option value="39">영업_영업 관리자</option>
+                    <option value="40">영업_외부영업</option>
+                    <option value="41">영업_주요고객사 담당자</option>
+                    <option value="42">영업_솔루션 컨설턴트</option>
+                    <option value="43">영업_해외영업</option>
+                    <option value="44">CS, 리테일_CS 매니저</option>
+                    <option value="45">CS, 리테일_MD</option>
+                    <option value="46">CS, 리테일_CS 어드바이저</option>
+                    <option value="47">CS, 리테일_리테일 MD</option>
+                    <option value="48">CS, 리테일_CRM 전문가</option>
+                    <option value="49">CS, 리테일_인바운드 텔레마케터</option>
+                    <option value="50">CS, 리테일_매장점원</option>
+                    <option value="51">미디어_콘텐츠 크리에이터</option>
+                    <option value="52">미디어_영상 편집가</option>
+                    <option value="53">미디어_PD</option>
+                    <option value="54">미디어_에디터</option>
+                    <option value="55">미디어_비디오 제작</option>
+                    <option value="56">미디어_작가</option>
+                    <option value="57">미디어_음향 엔지니어</option>
+                    <option value="58">인사, 교육_인사담당</option>
+                    <option value="59">인사, 교육_조직문화</option>
+                    <option value="60">인사, 교육_리크루터</option>
+                    <option value="61">인사, 교육_HRD</option>
+                    <option value="62">인사, 교육_평가·보상</option>
+                    <option value="63">인사, 교육_HRBP</option>
+                    <option value="64">인사, 교육_노무·노사</option>
+                    <option value="65">금융_회계 담당자</option>
+                    <option value="66">금융_재무 분석가</option>
+                    <option value="67">금융_회계담당</option>
+                    <option value="68">금융_IR</option>
+                    <option value="69">금융_공인회계사</option>
+                    <option value="70">금융_세무사</option>
+                    <option value="71">금융_애널리스트</option>
+                    <option value="72">엔지니어링, 설계_전기기계 공학자</option>
+                    <option value="73">엔지니어링, 설계_전자 엔지니어</option>
+                    <option value="74">엔지니어링, 설계_전기 엔지니어</option>
+                    <option value="75">엔지니어링, 설계_기계 엔지니어</option>
+                    <option value="76">엔지니어링, 설계_제품 엔지니어</option>
+                    <option value="77">엔지니어링, 설계_QA 엔지니어</option>
+                    <option value="78">엔지니어링, 설계_제어 엔지니어</option>
+                    <option value="79">게임 제작</option>
+                    <option value="80">의료, 제약, 바이오</option>
+                    <option value="81">제조, 생산</option>
+                    <option value="82">물류, 무역</option>
+                    <option value="83">식·음료</option>
+                    <option value="84">법률, 법집행기관</option>
+                    <option value="85">건설, 시설</option>
+                    <option value="86">비영리</option>
+                </select>
+            </div>
+            <div class="mx-auto submit_buttom">
+                <input type="submit" value="Submit" class="float-right">
+            </div>
+        </form>
+</div>
+
+    <div class = "mx-auto">
+        <img src='static/show_img/{{ name }}' class="rounded mx-auto d-block" onerror="this.src='static/show_img/home_main.png'">        
+    </div>
+    
+    <div class= "mt-5">
+    <p>
+        &nbsp;<br>
+        &nbsp;<br>
+        &nbsp;<br>
+        &nbsp;<br>
+        &nbsp;<br>
+        &nbsp;<br>
+    </p>
+    </div>
+</body>
+</html>

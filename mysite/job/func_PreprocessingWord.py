@@ -50,14 +50,14 @@ stopword_eng = set(stopwords.words('english'))
 ##########################################################################
 #-- DB 연결
 ##########################################################################
-mysql = pymysql.connect(host='15.164.96.251', port=54258, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+mysql = pymysql.connect(host='15.164.217.100', port=51955, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
 cursor = mysql.cursor(pymysql.cursors.DictCursor)
 # 채용 공고 불러오기
 cursor.execute("SELECT * FROM Flyers")
 data = cursor.fetchall()
 # mysql.close() # DB 적입 시 삭제 
 
-cursor.execute("SELECT distinct code_details, ID_num FROM testword")
+cursor.execute("SELECT distinct code_details, ID_num FROM Words")
 data_overlap = cursor.fetchall()
 overlap=[]
 for infor in data_overlap:
@@ -85,7 +85,7 @@ for infor in data:
                         if tempword[0] not in stopword_korean: # 불용어 제거
                             word = tempword[0].upper()
                             # print("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
-                            cursor.execute("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
+                            cursor.execute("INSERT INTO Words VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
                             # print("okt: ",tempword[0])
             # 영어 분리
             for tempword in word_tokenize(txt):
@@ -94,7 +94,7 @@ for infor in data:
                     if tempword not in stopword_eng: # 불용어 제거                    
                         word = tempword.upper()
                         # print("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
-                        cursor.execute("INSERT INTO testword VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
+                        cursor.execute("INSERT INTO Words VALUES ('%s', '%s', '%s')" % (code_details, word, id_num))
         print("Done/ "+str(datetime.now()))
 
 mysql.close()
