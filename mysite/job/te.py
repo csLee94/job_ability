@@ -1,20 +1,50 @@
-import pymysql
+import pymysql 
 import pandas as pd
+from wordcloud import WordCloud 
+from matplotlib import pyplot as plt 
+import matplotlib as mpl 
+import matplotlib.font_manager as fm 
+import time
 
-#-- URL Code Dict 설정
-mysql = pymysql.connect(host='52.79.243.255', port=54092, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
-cursor = mysql.cursor(pymysql.cursors.DictCursor)
-
-cursor.execute("SELECT * FROM Code_details")
-data_code = cursor.fetchall()
-lst_code = [infor['code_details'] for infor in data_code]
-query = "select name_details, word, count from NUM_Words inner join Code_details on NUM_Words.code_details = Code_details.code_details where Code_details.code_details=%s limit 5;"
-
-df = pd.DataFrame()
-for code in lst_code:
-    cursor.execute(query % code)
+def make_img(code):
+    mysql = pymysql.connect(host='3.34.133.199', port=58215, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+    cursor = mysql.cursor(pymysql.cursors.DictCursor)
+    cursor.execute("SELECT * FROM Code_details WHERE code_details=%s" % code)
+    code_name = cursor.fetchall()
+    code_name = code_name[0]['name_details']
+    cursor.execute("SELECT * FROM NUM_Words WHERE code_details=%s" % code)
     data = cursor.fetchall()
-    tdf = pd.DataFrame(data)
-    df = pd.concat([df,tdf])
+    mysql.close()
 
-df.to_excel("./temp.xlsx")
+    wordict = {}
+    for idx in range(len(data)):
+        wordict[data[idx]['word']] = data[idx]['count']
+    wc = WordCloud(
+        font_path = "./static/Font/SCDream4.otf",
+        width = 1200,
+        height = 800,
+        background_color = "white"
+    )
+
+    pic_array = wc.generate_from_frequencies(wordict).to_array()
+    fig = plt.figure(figsize=(12,8))
+    plt.imshow(pic_array, interpolation = 'bilinear')
+    plt.axis('off')
+
+    time_tuple = time.localtime()
+    time_str = time.strftime("%m/%d/%Y, %H:%M:%S", time_tuple)
+    fig.savefig('./static/show_img/img_%s_%s.png' % (str(code), str(time_str.split(', ')[0].replace('/', ''))))
+    name = str('img_%s_%s.png' % (str(code), str(time_str.split(', ')[0].replace('/', ''))))
+    plt.cla()
+        
+    path = "C:/Users/pc1/Documents/#0.LCS/project_job/job_ability/mysite/job/static/Font/SCDream4.otf"
+    font = fm.FontProperties(fname=path).get_name()
+    plt.rc('font', family = font)
+    fig = plt.figure(figsize=(12,8))
+    plt.bar(list(wordict.keys())[:20], list(wordict.values())[:20])
+    plt.savefig('fin.png')
+
+    return name, code_name
+
+
+make_img("10057")

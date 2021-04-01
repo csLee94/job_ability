@@ -3,13 +3,23 @@ from django.shortcuts import render
 from .func_Wordcloud import make_img
 # Create your views here.
 
+# def home(request):
+#     data = request.GET.copy()
+#     result_data= dict()
+#     if 'select' in data.keys():
+#         scode = change(data['select'])
+#         result_data['name'] = make_img(scode)
+#     return render(request, 'job/home.html', context=result_data)
+
 def home(request):
     data = request.GET.copy()
     result_data= dict()
     if 'select' in data.keys():
         scode = change(data['select'])
-        result_data['name'] = make_img(scode)
-    return render(request, 'job/home.html', context=result_data)
+        result_data['name'], result_data['code_name'], result_data['chart_name'] = make_img(scode)
+        return render(request, 'job/img_show.html', context=result_data)
+    else:
+        return render(request, 'job/home.html')
 
 def change(value):
     codict = {

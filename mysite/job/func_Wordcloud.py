@@ -7,8 +7,11 @@ import matplotlib.font_manager as fm
 import time
 
 def make_img(code):
-    mysql = pymysql.connect(host='52.79.243.255', port=54092, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+    mysql = pymysql.connect(host='3.34.133.199', port=58215, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
     cursor = mysql.cursor(pymysql.cursors.DictCursor)
+    cursor.execute("SELECT * FROM Code_details WHERE code_details=%s" % code)
+    code_name = cursor.fetchall()
+    code_name = code_name[0]['name_details']
     cursor.execute("SELECT * FROM NUM_Words WHERE code_details=%s" % code)
     data = cursor.fetchall()
     mysql.close()
@@ -32,20 +35,15 @@ def make_img(code):
     time_str = time.strftime("%m/%d/%Y, %H:%M:%S", time_tuple)
     fig.savefig('job/static/show_img/img_%s_%s.png' % (str(code), str(time_str.split(', ')[0].replace('/', ''))))
     name = str('img_%s_%s.png' % (str(code), str(time_str.split(', ')[0].replace('/', ''))))
-    return name
+    plt.cla()
+    path = "job/static/Font/SCDream4.otf"
+    font = fm.FontProperties(fname=path).get_name()
+    plt.rc('font', family = font)
+    fig = plt.figure(figsize=(10,6))
+    plt.bar(list(wordict.keys())[:20], list(wordict.values())[:20])
+    plt.savefig('job/static/show_img/chart_%s_%s.png' % (str(code), str(time_str.split(', ')[0].replace('/', ''))))
+    chart_name = str('chart_%s_%s.png' % (str(code), str(time_str.split(', ')[0].replace('/', ''))))
+
+    return name, code_name, chart_name
 
 
-# mysql = pymysql.connect(host='3.34.91.54', port=55634, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
-# cursor = mysql.cursor(pymysql.cursors.DictCursor)
-# cursor.execute("SELECT * FROM Code_details")
-# code_data = cursor.fetchall()
-# code_lst = [infor['code_details'] for infor in code_data]
-# mysql.close()
-
-# for code in code_lst:
-#     try:
-#         make_img(code, './temp_img/')
-#         print("Complete: %s" % code)
-#     except:
-#         print("Failed: %s" % code)
-    
