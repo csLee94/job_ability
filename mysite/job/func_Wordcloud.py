@@ -7,7 +7,7 @@ import matplotlib.font_manager as fm
 import time
 
 def make_img(code):
-    mysql = pymysql.connect(host='3.34.133.199', port=58215, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
+    mysql = pymysql.connect(host='3.35.149.226', port=59757, user='lcs', password='lcs', db='JOB', charset='utf8mb4', autocommit=True)
     cursor = mysql.cursor(pymysql.cursors.DictCursor)
     cursor.execute("SELECT * FROM Code_details WHERE code_details=%s" % code)
     code_name = cursor.fetchall()
