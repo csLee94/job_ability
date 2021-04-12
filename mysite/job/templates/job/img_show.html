@@ -15,11 +15,14 @@
 <body>
     <div class="mx-auto mt-5">
         <h1 class="text-center"> {{code_name}} </h1>
-    </div>   
+    </div>
 
 
-<div class="mx-auto" style="width: 500px;">
+    <div class="mx-auto" style="width: 500px;">
         <form action='' method="GET">
+            <div class="mx-auto submit_buttom">
+                <input type="submit" value="Submit" class="float-right">
+            </div>
             <div class="mx-auto mt-5 search-bar input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Select</label>
@@ -114,32 +117,32 @@
                     <option value="86">비영리</option>
                 </select>
             </div>
-            <div class="mx-auto submit_buttom">
-                <input type="submit" value="Submit" class="float-right">
-            </div>
         </form>
-</div>
+    </div>
 
-    <div class = "mx-auto">
-        <img src='static/show_img/{{ name }}' class="rounded mx-auto d-block" onerror="this.src='static/show_img/home_main.png'">        
+    <div class="mx-auto">
+        <img src='static/show_img/{{ name }}' class="rounded mx-auto d-block"
+            onerror="this.src='static/show_img/home_main.png'">
     </div>
 
     &nbsp;<br>
 
-    <div class = "mx-auto">
-        <img src='static/show_img/{{ chart_name }}' class="rounded mx-auto d-block" onerror="this.src='static/show_img/home_main.png'">        
+    <div class="mx-auto">
+        <img src='static/show_img/{{ chart_name }}' class="rounded mx-auto d-block"
+            onerror="this.src='static/show_img/home_main.png'">
     </div>
 
 
-    <div class= "mt-5">
-    <p>
-        &nbsp;<br>
-        &nbsp;<br>
-        &nbsp;<br>
-        &nbsp;<br>
-        &nbsp;<br>
-        &nbsp;<br>
-    </p>
+    <div class="mt-5">
+        <p>
+            &nbsp;<br>
+            &nbsp;<br>
+            &nbsp;<br>
+            &nbsp;<br>
+            &nbsp;<br>
+            &nbsp;<br>
+        </p>
     </div>
 </body>
+
 </html>
